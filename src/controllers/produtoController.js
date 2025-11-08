@@ -13,11 +13,23 @@ const produtoController = {
      */
     listarProdutos: async (req, res) => {
         try {
+            const {idProduto} = req.query
 
+            if (idProduto) {
+                if (idProduto.length != 36) {
+                    return res.status(400).json({ erro: "ID do produto inválido." });
+                }
+
+                const produto = await produtoModel.buscarUm(idProduto);
+
+                return res.status(200).json(produto);
+            }
             const produtos = await produtoModel.buscarTodos();
 
             res.status(200).json(produtos);
+            
         } catch (error) {
+            console.error("Erro ao listar produtos:", error);
             res.status(500).json({ erro: "Erro ao buscar produtos." });
         }
     },

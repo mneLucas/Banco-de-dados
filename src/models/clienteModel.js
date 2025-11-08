@@ -1,12 +1,12 @@
 const { sql, getConnection } = require("../config/db");
 
-const produtoModel = {
+const clienteModel = {
     /**
-     * Busca todos os produtos no banco de dados.
+     * Busca todos os clientes no banco de dados.
      * 
      * @async
      * @function buscarTodos
-     * @returns {Promise<Array>} Retorna uma lista com todos os produtos.
+     * @returns {Promise<Array>} Retorna uma lista com todos os clientes.
      * @throws Monstar no console e propaga o erro caso a busca falhe.
      * 
      */
@@ -14,70 +14,70 @@ const produtoModel = {
         try {
             const pool = await getConnection();
 
-            const querySQL = 'SELECT * FROM Produtos';
+            const querySQL = 'SELECT * FROM cliente';
             const result = await pool.request()
                 .query(querySQL);
 
             return result.recordset;
 
         } catch (error) {
-            console.error("Erro ao buscar produtos:", error);
+            console.error("Erro ao buscar cliente:", error);
             throw error; //Reverberar o erro para a função que o chamar
         }
     },
 
-    buscarUm: async (idProduto) => {
+    buscarUm: async (idCliente) => {
         try {
             const pool = await getConnection();
 
             const querySQL = `
-                SELECT * FROM Produtos
-                WHERE idProduto = @idProduto
+                SELECT * FROM cliente
+                WHERE idCliente = @idCliente
             `;
 
             const result = await pool.request()
-                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .input('idCliente', sql.UniqueIdentifier, idCliente)
                 .query(querySQL);
 
             return result.recordset;
             
         } catch (error) {
-            console.error('Erro ao buscar o produto:', error);
+            console.error('Erro ao buscar o cliente:', error);
             throw error;
             
         }
 
     },
     /**
-     * Insere um novo produto no banco de dados.
+     * Insere um novo cliente no banco de dados.
      * 
      * @async
-     * @function inserirProduto
-     * @param {string} nomeProduto Nome do produto a ser cadastrado. 
-     * @param {number} precoProduto Preço do produto a ser cadastrado.
+     * @function inserirCliente
+     * @param {string} nomeCliente Nome do cliente a ser cadastrado. 
+     * @param {number} cpfCliente CPF do cliente a ser cadastrado.
      * @returns {Promise<void>} Não retorna nada, apenas executa a inserção.
-     * @throws Monstar no console e propaga o erro caso a inserção falhe. 
+     * @throws Mostrar no console e propaga o erro caso a inserção falhe. 
      */
 
-    inserirProduto: async (nomeProduto, precoProduto) => {
+    inserirCliente: async (nomeCliente, cpfCliente) => {
         try {
 
             const pool = await getConnection();
 
             const querySQL = `
-            INSERT INTO Produtos (nomeProduto, precoProduto)
-            VALUES (@nomeProduto, @precoProduto)
+            INSERT INTO Cliente (nomeCliente, cpfCliente)
+            VALUES (@nomeCliente, @cpfCliente)
             `
 
             await pool.request()
-                .input('nomeProduto', sql.VarChar(100), nomeProduto)
-                .input('precoProduto', sql.Decimal(10, 2), precoProduto)
+                .input('nomeCliente', sql.VarChar(100), nomeCliente)
+                .input('cpfCliente', sql.Char(11), cpfCliente)
                 .query(querySQL);
         } catch (error) {
-            console.error("Erro ao inserir produto:", error);
+            console.error("Erro ao inserir cliente:", error);
             throw error; 
         }
     }
 }
 
-module.exports = { produtoModel };
+module.exports = { clienteModel };
