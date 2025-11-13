@@ -56,7 +56,7 @@ const produtoModel = {
      * @param {string} nomeProduto Nome do produto a ser cadastrado. 
      * @param {number} precoProduto Preço do produto a ser cadastrado.
      * @returns {Promise<void>} Não retorna nada, apenas executa a inserção.
-     * @throws Monstar no console e propaga o erro caso a inserção falhe. 
+     * @throws Mostrar no console e propaga o erro caso a inserção falhe. 
      */
 
     inserirProduto: async (nomeProduto, precoProduto) => {

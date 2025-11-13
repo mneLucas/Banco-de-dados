@@ -24,9 +24,9 @@ const clienteController = {
 
                 return res.status(200).json(cliente);
             }
-            const clientes = await clienteModel.buscarTodos();
+            const cliente = await clienteModel.buscarTodos();
 
-            res.status(200).json(clientes);
+            res.status(200).json(cliente);
             
         } catch (error) {
             console.error("Erro ao listar clientes:", error);
@@ -46,7 +46,7 @@ const clienteController = {
      * @throws {500} Em caso de falha ao cadastrar o cliente no banco de dados.
      * 
      * @example
-     * POST /clientes
+     * POST /cliente
      * BODY:
      * {
      *   "nomeCliente": "Alfredo",
