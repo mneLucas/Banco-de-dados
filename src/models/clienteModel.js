@@ -14,7 +14,7 @@ const clienteModel = {
         try {
             const pool = await getConnection();
 
-            const querySQL = 'SELECT * FROM cliente';
+            const querySQL = 'SELECT * FROM clientes';
             const result = await pool.request()
                 .query(querySQL);
 
@@ -31,7 +31,7 @@ const clienteModel = {
             const pool = await getConnection();
 
             const querySQL = `
-                SELECT * FROM cliente
+                SELECT * FROM clientes
                 WHERE idCliente = @idCliente
             `;
 
@@ -65,7 +65,7 @@ const clienteModel = {
             const pool = await getConnection();
 
             const querySQL = `
-            INSERT INTO Cliente (nomeCliente, cpfCliente)
+            INSERT INTO Clientes (nomeCliente, cpfCliente)
             VALUES (@nomeCliente, @cpfCliente)
             `
 
