@@ -26,6 +26,16 @@ const produtoModel = {
         }
     },
 
+    /**
+     * Busca apenas um produto pelo seu ID no banco de dados.
+     * 
+     * @async
+     * @function buscarUm
+     * @param {string} idProduto ID do produto a ser buscado.
+     * @returns {Promise<Object>} Retorna o produto correspondente ao ID fornecido.
+     * @throws Mostrar no console e propaga o erro caso a busca falhe.
+     */
+
     buscarUm: async (idProduto) => {
         try {
             const pool = await getConnection();
@@ -77,7 +87,43 @@ const produtoModel = {
             console.error("Erro ao inserir produto:", error);
             throw error; 
         }
-    }
+    },
+
+        /**
+     * atualiza um produto no banco de dados.
+     * 
+     * @async
+     * @function atualizarProduto
+     * @param {string} idProduto ID do produto a ser atualizado.
+     * @param {string} nomeProduto Novo nome do produto a ser atualizado
+     * @param {number} precoProduto Novo preço do produto a ser atualizado.
+     * @returns {Promise<void>} Não retorna nada, apenas executa a atualização.
+     * @throws Mostrar no console e propaga o erro caso a atualização falhe.
+     */
+
+    atualizarProduto: async (idProduto, nomeProduto, precoProduto) => {
+        try {
+            const pool = await getConnection();
+            const querySQL = `
+                UPDATE Produtos
+                SET nomeProduto = @nomeProduto,
+                    precoProduto = @precoProduto
+                WHERE idProduto = @idProduto
+            `;
+
+            await pool.request()
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .input('nomeProduto', sql.VarChar(100), nomeProduto)
+                .input('precoProduto', sql.Decimal(10, 2), precoProduto)
+                .query(querySQL);
+        } catch (error) {
+            console.error("Erro ao atualizar produto:", error);
+            throw error;
+        }
+    },
+    
+
+    
 }
 
 module.exports = { produtoModel };
